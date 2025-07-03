@@ -1,0 +1,67 @@
+openapi: 3.0.0
+info:
+  title: Smart Flashcard API
+  version: 1.0.0
+  description: API for adding and retrieving smart flashcards with subject inference
+
+paths:
+  /flashcard:
+    post:
+      summary: Add a flashcard with subject inference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                student_id:
+                  type: string
+                question:
+                  type: string
+                answer:
+                  type: string
+      responses:
+        '200':
+          description: Flashcard added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  subject:
+                    type: string
+
+  /get-subject:
+    get:
+      summary: Get flashcards by student ID with mixed subjects
+      parameters:
+        - in: query
+          name: student_id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: limit
+          required: false
+          schema:
+            type: integer
+            default: 5
+      responses:
+        '200':
+          description: List of flashcards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    question:
+                      type: string
+                    answer:
+                      type: string
+                    subject:
+                      type: string
